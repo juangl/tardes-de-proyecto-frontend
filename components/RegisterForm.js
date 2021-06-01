@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Spinner from './Spinner';
 
-export default function LoginForm({ setError }) {
+
+function RegisterForm({ setError }) {
   const [userInput, setUserInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +23,7 @@ export default function LoginForm({ setError }) {
 
     setIsLoading(true);
     setError(null);
-    fetch("http://localhost:3001/login", {
+    fetch("http://localhost:3001/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +40,7 @@ export default function LoginForm({ setError }) {
         return res.json();
       })
       .then((data) => {
+        console.log('🚀 ~ .then ~ data', data);
         const { access_token: accessToken } = data;
         localStorage.setItem("token", accessToken);
         setIsLoading(false);
@@ -74,8 +76,10 @@ export default function LoginForm({ setError }) {
         className="flex flex-row justify-center items-center text-center bg-gradient-to-b from-blue-400 to-blue-500 text-white border border-blue-500 py-1 rounded-sm disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading && <Spinner />}
-        Iniciar Sesión
+        Registrarse
       </button>
     </form>
   );
 }
+
+export default RegisterForm;
